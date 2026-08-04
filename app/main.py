@@ -5,7 +5,8 @@ from app.routes import auth, users, products
 app = FastAPI(
     title="AuthHub API",
     description="Production-ready Authentication API",
-    version="1.0.0"
+    version="1.0.0",
+    debug=True,
 )
 
 
