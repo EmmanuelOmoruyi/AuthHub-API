@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -75,11 +76,11 @@ async def register(
     response_model=Token,
 )
 async def login(
-    user: UserLogin,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_db),
 ):
     result = await db.execute(
-        select(User).where(User.email == user.email)
+        select(User).where(User.email == form_data.username)
     )
 
     existing_user = result.scalar_one_or_none()
@@ -87,7 +88,7 @@ async def login(
     if (
         existing_user is None
         or not verify_password(
-            user.password,
+            form_data.password,
             existing_user.password,
         )
     ):
@@ -97,10 +98,10 @@ async def login(
         )
 
     access_token = create_access_token(
-    {
-        "id": existing_user.id
-    }
-)
+        {
+            "id": existing_user.id,
+        }
+    )
 
     return {
         "access_token": access_token,
