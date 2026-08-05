@@ -303,7 +303,7 @@ GitHub:
 https://github.com/EmmanuelOmoruyi/AuthHub-API
 
 LinkedIn:
-*(Add your LinkedIn profile here)*
+(https://www.linkedin.com/in/emmanuel-omoruyi-387666405/)
 
 ---
 
